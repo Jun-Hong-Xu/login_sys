@@ -88,17 +88,28 @@ public class UserController {
     //Handle user's login operation
     @PostMapping("signin")
     public Map<String, Object> signin(@Param("username") String username,
-                                      @Param("password") String password){
+                                      @Param("password") String password,
+                                      @Param("verifyCode") String verifyCode, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+
+
         try {
-            User userByUsername = userService.login(user);
-            map.put("state",true);
-            map.put("msg", "Success.");
-            // Username needed to show welcome page
-            map.put("username", username);
+            // 1. Get the key verify code from application scope(ServletContext)
+            String keyCode = (String) request.getServletContext().getAttribute("verifyCode");
+            // 2. Verify the verify code
+            if (keyCode.equalsIgnoreCase(verifyCode)){
+                User user = new User();
+                user.setUsername(username);
+                user.setPassword(password);
+                User userByUsername = userService.login(user);
+                map.put("state",true);
+                map.put("msg", "Success.");
+                // Username needed to show welcome page
+                map.put("username", username);
+            } else{
+                throw new RuntimeException("Verify code is wrong!");
+            }
+
         }catch (Exception e){
             e.printStackTrace();
             map.put("state",false);
