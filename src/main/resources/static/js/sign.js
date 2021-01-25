@@ -35,6 +35,7 @@
                 data: {
                     "username": $("#lg_username").val(),
                     "password": $("#lg_password").val(),
+                    "verifyCode": $("#reg_captcha").val()
                 },
                 dataType: 'json',
                 success: data=>{
@@ -44,7 +45,9 @@
                             form_success(form);
                         }, 1000);
                         // Store the username into the local storage
-                        localStorage.setItem("username",data["username"]);
+                        // localStorage.setItem("username",data["username"]);
+                        // Store the username into the session storage
+                        sessionStorage.setItem("username",data["username"]);
 
                         window.alert("Success! Press confirm to redirect to main page.");
 

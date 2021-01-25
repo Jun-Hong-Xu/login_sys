@@ -120,14 +120,16 @@
 </body>
 
 <script>
-  window.onload=getUsernameLocalMem();
+  window.onload=getUsernameMem();
 
-  function getUsernameLocalMem() {
+  function getUsernameMem() {
     var welcomeTitleTag = document.getElementById("welcome");
     // Sign in Interceptor
-    if (localStorage.username!=undefined){
+    // if (localStorage.username!=undefined){
+    if (sessionStorage.username!=undefined){
       // if username exists in localStorage then change the title
-      welcomeTitleTag.innerText = "Welcome Back! "+ localStorage.username;
+      // welcomeTitleTag.innerText = "Welcome Back! "+ localStorage.username;
+      welcomeTitleTag.innerText = "Welcome Back! "+ sessionStorage.username;
     }else {
       window.alert("You haven't signed in, press enter to redirect.");
       window.location.replace("http://localhost:8080/login_sys/signin.html");
@@ -137,7 +139,8 @@
   // Function for logging out safely
   // Could be reused in some other pages related with user system
   function safeLogout(){
-    localStorage.removeItem("username");
+    // localStorage.removeItem("username");
+    sessionStorage.removeItem("username");
     window.location.replace("http://localhost:8080/login_sys/signin.html");
   }
 </script>
